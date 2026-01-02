@@ -3,208 +3,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agência de Saúde & Viagens</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #0d6efd;
-      --secondary: #0bbcd6;
-      --dark: #0f172a;
-      --light: #f8fafc;
-      --gray: #64748b;
-    }* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
+    :root{
+      --primary:#0d6efd;--secondary:#00b4d8;--dark:#0f172a;--light:#f8fafc;--gray:#64748b;--bg:#eef2f7;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+    body{background:var(--bg);color:var(--dark)}
+    header{position:fixed;top:0;width:100%;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.06);z-index:1000}
+    .nav{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:20px}
+    .logo{font-size:1.4rem;font-weight:700;color:var(--primary)}
+    .menu a{margin-left:20px;text-decoration:none;color:var(--dark);font-weight:500}
+    .menu a:hover{color:var(--primary)}.hero{margin-top:90px;min-height:95vh;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;display:flex;align-items:center}
+.hero-content{max-width:1200px;margin:auto;padding:40px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px}
+.hero h1{font-size:3rem;margin-bottom:20px}
+.hero p{font-size:1.1rem;margin-bottom:30px;opacity:.95}
+.btn{display:inline-block;background:#fff;color:var(--primary);padding:14px 32px;border-radius:50px;text-decoration:none;font-weight:600;transition:.3s}
+.btn:hover{transform:translateY(-3px)}
+.hero-img{height:380px;background:rgba(255,255,255,.25);border:2px dashed #fff;display:flex;align-items:center;justify-content:center;font-weight:600}
 
-body {
-  background: var(--light);
-  color: var(--dark);
-  line-height: 1.6;
-}
+section{padding:110px 20px}
+.container{max-width:1200px;margin:auto}
+.section-title{text-align:center;margin-bottom:60px}
+.section-title h2{font-size:2.4rem;margin-bottom:10px}
+.section-title p{color:var(--gray)}
 
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: white;
-  box-shadow: 0 4px 20px rgba(0,0,0,.05);
-  z-index: 1000;
-}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+.card{background:#fff;border-radius:22px;box-shadow:0 12px 40px rgba(0,0,0,.07);overflow:hidden;transition:.3s}
+.card:hover{transform:translateY(-6px)}
+.card-img{height:180px;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#64748b;font-weight:600}
+.card-body{padding:22px}
+.price{color:var(--primary);font-size:1.2rem;font-weight:700;margin-top:10px}
 
-.nav {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px}
+.feature{background:#fff;padding:30px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.06);text-align:center}
 
-.logo {
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: var(--primary);
-}
+.cta{background:linear-gradient(135deg,var(--secondary),var(--primary));color:#fff;border-radius:30px;padding:80px 30px;text-align:center}
 
-.menu a {
-  margin-left: 25px;
-  text-decoration: none;
-  color: var(--dark);
-  font-weight: 500;
-}
+footer{background:var(--dark);color:#fff;padding:80px 20px}
+footer p{color:#cbd5e1}
 
-.menu a:hover {
-  color: var(--primary);
-}
+/* ADMIN */
+#admin-area{background:#fff;border-radius:25px;box-shadow:0 15px 50px rgba(0,0,0,.1);padding:40px}
+#login input,#admin-area input,#admin-area textarea,#admin-area select{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #cbd5e1}
+#admin-area button,#login button{width:100%;padding:14px;border-radius:50px;border:none;background:var(--primary);color:#fff;font-weight:600;cursor:pointer}
+#admin-area button:hover,#login button:hover{opacity:.9}
+.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:30px}
+.list-admin{background:#f1f5f9;padding:20px;border-radius:15px}
+.list-admin div{background:#fff;padding:12px;border-radius:10px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.list-admin button{width:auto;padding:6px 12px;border-radius:8px;font-size:.8rem}
 
-.hero {
-  margin-top: 90px;
-  min-height: 90vh;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  display: flex;
-  align-items: center;
-}
-
-.hero-content {
-  max-width: 1200px;
-  margin: auto;
-  padding: 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-}
-
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.hero p {
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-}
-
-.btn {
-  display: inline-block;
-  background: white;
-  color: var(--primary);
-  padding: 15px 30px;
-  border-radius: 50px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: .3s;
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-}
-
-.image-placeholder {
-  width: 100%;
-  height: 300px;
-  background: rgba(255,255,255,.25);
-  border: 2px dashed white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-}
-
-section {
-  padding: 100px 20px;
-}
-
-.container {
-  max-width: 1200px;
-  margin: auto;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.section-title h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-}
-
-.card {
-  background: white;
-  padding: 40px 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0,0,0,.05);
-  text-align: center;
-}
-
-.card .image-placeholder {
-  height: 180px;
-  margin-bottom: 20px;
-  border-color: var(--gray);
-  color: var(--gray);
-}
-
-.card h3 {
-  margin-bottom: 10px;
-}
-
-.card p {
-  color: var(--gray);
-}
-
-.cta {
-  background: linear-gradient(135deg, var(--secondary), var(--primary));
-  color: white;
-  text-align: center;
-  border-radius: 30px;
-  padding: 80px 30px;
-}
-
-footer {
-  background: var(--dark);
-  color: white;
-  padding: 60px 20px;
-}
-
-.footer-grid {
-  max-width: 1200px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-}
-
-.footer-grid h4 {
-  margin-bottom: 15px;
-}
-
-.footer-grid p {
-  color: #cbd5e1;
-}
-
-.copyright {
-  text-align: center;
-  margin-top: 40px;
-  color: #94a3b8;
-  font-size: .9rem;
-}
-
-@media (max-width: 900px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;text-align:center}
+  .admin-grid{grid-template-columns:1fr}
 }
 
   </style>
@@ -213,10 +64,12 @@ footer {
   <div class="nav">
     <div class="logo">CONTEÚDO</div>
     <nav class="menu">
-      <a href="#">CONTEÚDO</a>
-      <a href="#">CONTEÚDO</a>
-      <a href="#">CONTEÚDO</a>
-      <a href="#">CONTEÚDO</a>
+      <a href="#saude">CONTEÚDO</a>
+      <a href="#viagens">CONTEÚDO</a>
+      <a href="#beneficios">CONTEÚDO</a>
+      <a href="#sobre">CONTEÚDO</a>
+      <a href="#contato">CONTEÚDO</a>
+      <a href="#admin">ADMIN</a>
     </nav>
   </div>
 </header><section class="hero">
@@ -224,55 +77,116 @@ footer {
     <div>
       <h1>CONTEÚDO</h1>
       <p>CONTEÚDO</p>
-      <a href="#" class="btn">CONTEÚDO</a>
+      <a class="btn">CONTEÚDO</a>
     </div>
-    <div class="image-placeholder">IMAGEM – CONTEÚDO</div>
+    <div class="hero-img">IMAGEM – CONTEÚDO</div>
   </div>
-</section><section>
+</section><section id="beneficios">
   <div class="container">
-    <div class="section-title">
-      <h2>CONTEÚDO</h2>
-      <p>CONTEÚDO</p>
+    <div class="section-title"><h2>CONTEÚDO</h2><p>CONTEÚDO</p></div>
+    <div class="features">
+      <div class="feature">CONTEÚDO</div>
+      <div class="feature">CONTEÚDO</div>
+      <div class="feature">CONTEÚDO</div>
     </div>
-    <div class="cards">
-      <div class="card">
-        <div class="image-placeholder">IMAGEM – CONTEÚDO</div>
-        <h3>CONTEÚDO</h3>
-        <p>CONTEÚDO</p>
+  </div>
+</section><section id="saude">
+  <div class="container">
+    <div class="section-title"><h2>CONTEÚDO</h2><p>CONTEÚDO</p></div>
+    <div class="cards" id="listaSaude"></div>
+  </div>
+</section><section id="viagens">
+  <div class="container">
+    <div class="section-title"><h2>CONTEÚDO</h2><p>CONTEÚDO</p></div>
+    <div class="cards" id="listaViagens"></div>
+  </div>
+</section><section id="sobre">
+  <div class="container">
+    <div class="section-title"><h2>CONTEÚDO</h2><p>CONTEÚDO</p></div>
+    <p style="text-align:center;max-width:800px;margin:auto">CONTEÚDO</p>
+  </div>
+</section><section id="admin">
+  <div class="container">
+    <div id="login">
+      <div id="admin-area">
+        <h2 style="text-align:center">PAINEL ADMIN</h2>
+        <input type="password" id="senha" placeholder="Senha do admin" />
+        <button onclick="login()">Entrar</button>
       </div>
-      <div class="card">
-        <div class="image-placeholder">IMAGEM – CONTEÚDO</div>
-        <h3>CONTEÚDO</h3>
-        <p>CONTEÚDO</p>
+    </div><div id="painel" style="display:none">
+  <div id="admin-area">
+    <h2 style="text-align:center">GERENCIAR ANÚNCIOS</h2>
+    <div class="admin-grid">
+      <div>
+        <h3>Adicionar anúncio</h3>
+        <select id="tipo">
+          <option value="saude">Plano de Saúde</option>
+          <option value="viagens">Viagem</option>
+        </select>
+        <input id="titulo" placeholder="Título" />
+        <input id="preco" placeholder="Preço" />
+        <textarea id="desc" placeholder="Descrição"></textarea>
+        <button onclick="addItem()">Adicionar</button>
       </div>
-      <div class="card">
-        <div class="image-placeholder">IMAGEM – CONTEÚDO</div>
-        <h3>CONTEÚDO</h3>
-        <p>CONTEÚDO</p>
+      <div class="list-admin">
+        <h3>Anúncios cadastrados</h3>
+        <div id="adminList"></div>
       </div>
     </div>
   </div>
-</section><section class="container">
-  <div class="cta">
-    <h2>CONTEÚDO</h2>
+</div>
+
+  </div>
+</section><footer id="contato">
+  <div class="container">
+    <h3>CONTEÚDO</h3>
     <p>CONTEÚDO</p>
-    <a href="#" class="btn">CONTEÚDO</a>
   </div>
-</section><footer>
-  <div class="footer-grid">
-    <div>
-      <h4>CONTEÚDO</h4>
-      <p>CONTEÚDO</p>
-    </div>
-    <div>
-      <h4>CONTEÚDO</h4>
-      <p>CONTEÚDO</p>
-    </div>
-    <div>
-      <h4>CONTEÚDO</h4>
-      <p>CONTEÚDO</p>
-    </div>
-  </div>
-  <div class="copyright">© CONTEÚDO</div>
-</footer></body>
-  </html>
+</footer><script>
+const senhaCorreta = '1234';
+
+function login(){
+  if(document.getElementById('senha').value === senhaCorreta){
+    document.getElementById('login').style.display='none';
+    document.getElementById('painel').style.display='block';
+    render();
+  } else alert('Senha incorreta');
+}
+
+function getData(tipo){return JSON.parse(localStorage.getItem(tipo)||'[]')}
+function saveData(tipo,data){localStorage.setItem(tipo,JSON.stringify(data))}
+
+function addItem(){
+  const tipo=tipo.value;
+  const item={titulo:titulo.value,preco:preco.value,desc:desc.value};
+  const data=getData(tipo);
+  data.push(item);
+  saveData(tipo,data);
+  render();
+  document.getElementById('titulo').value='';
+  document.getElementById('preco').value='';
+  document.getElementById('desc').value='';
+}
+
+function removeItem(tipo,index){
+  const data=getData(tipo);
+  data.splice(index,1);
+  saveData(tipo,data);
+  render();
+}
+
+function render(){
+  ['saude','viagens'].forEach(tipo=>{
+    const list=document.getElementById(tipo==='saude'?'listaSaude':'listaViagens');
+    const admin=document.getElementById('adminList');
+    const data=getData(tipo);
+    list.innerHTML=''; admin.innerHTML='';
+    data.forEach((d,i)=>{
+      list.innerHTML+=`<div class="card"><div class="card-img">IMAGEM – CONTEÚDO</div><div class="card-body"><h3>${d.titulo}</h3><p>${d.desc}</p><div class="price">${d.preco}</div></div></div>`;
+      admin.innerHTML+=`<div><span>${d.titulo}</span><button onclick="removeItem('${tipo}',${i})">Excluir</button></div>`;
+    })
+  })
+}
+render();
+</script></body>
+</html>
