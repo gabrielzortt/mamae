@@ -2,120 +2,110 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Painel Administrativo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #eef2f7;
-  padding: 20px;
-}
-
-.box {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 500px;
-  margin-bottom: 25px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-input, textarea, button {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 16px;
-}
-
-button {
-  background: #0066ff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="box" id="loginBox">
-  <h2>Login Administrativo</h2>
-  <input id="email" placeholder="Email">
-  <input id="senha" type="password" placeholder="Senha">
-  <button onclick="login()">Entrar</button>
-</div>
-
-<div id="painel" style="display:none">
-
-<div class="box">
-  <h2>Conteúdo do Site</h2>
-  <input id="titulo" placeholder="Título">
-  <input id="subtitulo" placeholder="Subtítulo">
-  <textarea id="apresentacao" placeholder="Apresentação"></textarea>
-  <input id="rodape" placeholder="Rodapé">
-  <button onclick="salvarConteudo()">Salvar</button>
-</div>
-
-<div class="box">
-  <h2>Novo Produto</h2>
-  <input id="nome" placeholder="Nome">
-  <input id="preco" placeholder="Preço">
-  <input id="imagem" placeholder="Link da imagem">
-  <textarea id="descricao" placeholder="Descrição"></textarea>
-  <button onclick="salvarProduto()">Adicionar Produto</button>
-</div>
-
-</div>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administração</title>
+<link rel="stylesheet" href="style.css">
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, collection, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
+import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBt2_hFx7ppxdqchzOhmMWXFrsKXsORy5U",
   authDomain: "mamae-6ced3.firebaseapp.com",
   projectId: "mamae-6ced3",
-  storageBucket: "mamae-6ced3.firebasestorage.app",
+  storageBucket: "mamae-6ced3.appspot.com",
   messagingSenderId: "783662269266",
   appId: "1:783662269266:web:bd7dd7e5f31c13801ff08b",
   measurementId: "G-QMPJJ45C50"
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app);
 
-window.login = () => {
-  signInWithEmailAndPassword(auth, email.value, senha.value)
-    .then(() => {
-      loginBox.style.display = "none";
-      painel.style.display = "block";
-    })
-    .catch(() => alert("Erro no login"));
-};
+// Login
+document.getElementById("login-form").addEventListener("submit", async(e)=>{
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+  try{
+    await signInWithEmailAndPassword(auth,email,senha);
+    document.getElementById("admin-panel").style.display = "block";
+    document.getElementById("login-form").style.display = "none";
+  }catch(err){
+    alert("Erro: "+err.message);
+  }
+});
 
-window.salvarConteudo = async () => {
-  await setDoc(doc(db, "site", "conteudo"), {
-    titulo: titulo.value,
-    subtitulo: subtitulo.value,
-    apresentacao: apresentacao.value,
-    rodape: rodape.value
-  });
-  alert("Conteúdo salvo");
-};
+// Logout
+document.getElementById("logout-btn").addEventListener("click", async ()=>{
+  await signOut(auth);
+  document.getElementById("admin-panel").style.display = "none";
+  document.getElementById("login-form").style.display = "block";
+});
 
-window.salvarProduto = async () => {
-  await addDoc(collection(db, "produtos"), {
-    nome: nome.value,
-    preco: preco.value,
-    imagem: imagem.value,
-    descricao: descricao.value
-  });
-  alert("Produto adicionado");
-};
+// Salvar conteúdo principal
+document.getElementById("salvar-site").addEventListener("click", async ()=>{
+  const banner = document.getElementById("banner-texto").value;
+  const apresentacao = document.getElementById("apresentacao-texto").value;
+  const rodape = document.getElementById("rodape-texto").value;
+  await setDoc(doc(db,"site","conteudo"),{banner,apresentacao,rodape});
+  alert("Salvo!");
+});
+
+// Adicionar produto
+document.getElementById("add-produto").addEventListener("click", async ()=>{
+  const nome = document.getElementById("produto-nome").value;
+  const descricao = document.getElementById("produto-descricao").value;
+  const preco = document.getElementById("produto-preco").value;
+  const imgFile = document.getElementById("produto-imagem").files[0];
+  let imgPath = "";
+  if(imgFile){
+    const storageRef = ref(storage,"produtos/"+imgFile.name);
+    await uploadBytes(storageRef,imgFile);
+    imgPath = "produtos/"+imgFile.name;
+  }
+  await addDoc(collection(db,"produtos"),{nome,descricao,preco,imagem:imgPath});
+  alert("Produto adicionado!");
+});
 </script>
+<style>
+body{font-family:sans-serif;margin:0;padding:0;background:#f8f9fa;color:#333;}
+#admin-panel{display:none;padding:2rem;}
+form{display:flex;flex-direction:column;max-width:400px;margin:auto;}
+input,textarea,button{margin-bottom:1rem;padding:0.5rem;font-size:1rem;}
+button{background:#007bff;color:white;border:none;border-radius:5px;cursor:pointer;}
+button:hover{background:#0056b3;}
+</style>
+</head>
+<body>
+
+<h2>Login Admin</h2>
+<form id="login-form">
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="senha" placeholder="Senha">
+  <button type="submit">Entrar</button>
+</form>
+
+<div id="admin-panel">
+  <button id="logout-btn">Sair</button>
+
+  <h3>Conteúdo Principal</h3>
+  <input type="text" id="banner-texto" placeholder="Banner">
+  <textarea id="apresentacao-texto" placeholder="Apresentação"></textarea>
+  <textarea id="rodape-texto" placeholder="Rodapé"></textarea>
+  <button id="salvar-site">Salvar</button>
+
+  <h3>Adicionar Produto</h3>
+  <input type="text" id="produto-nome" placeholder="Nome">
+  <textarea id="produto-descricao" placeholder="Descrição"></textarea>
+  <input type="text" id="produto-preco" placeholder="Preço">
+  <input type="file" id="produto-imagem">
+  <button id="add-produto">Adicionar Produto</button>
+</div>
 
 </body>
 </html>
