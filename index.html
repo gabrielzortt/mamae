@@ -3,93 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <title>Agência de Viagens & Planos de Saúde</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f2f4f8;
+      color: #333;
     }
 
     header {
-      background: #004aad;
+      background: linear-gradient(120deg, #0066ff, #00c2ff);
       color: white;
-      padding: 20px;
-    }
-
-    header h1 {
-      margin: 0;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav button {
-      background: white;
-      color: #004aad;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
+      padding: 60px 20px;
+      text-align: center;
     }
 
     section {
+      max-width: 1200px;
+      margin: auto;
       padding: 40px 20px;
     }
 
-    .grid {
+    h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .produtos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
     }
 
-    .card {
+    .produto {
       background: white;
-      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      overflow: hidden;
     }
 
-    .card h3 {
-      margin-top: 0;
-    }
-
-    .card a {
-      display: inline-block;
-      margin-top: 10px;
-      color: white;
-      background: #004aad;
-      padding: 8px 14px;
-      border-radius: 6px;
-      text-decoration: none;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    input, textarea {
+    .produto img {
       width: 100%;
-      padding: 10px;
-      margin: 6px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      height: 200px;
+      object-fit: cover;
     }
 
-    .btn {
-      background: #004aad;
+    .produto .info {
+      padding: 15px;
+    }
+
+    footer {
+      background: #111;
       color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: bold;
+      text-align: center;
+      padding: 25px;
+      margin-top: 40px;
     }
   </style>
 </head>
@@ -97,94 +67,65 @@
 <body>
 
 <header>
-  <nav>
-    <h1>LOGO</h1>
-    <button onclick="abrirLogin()">Admin</button>
-  </nav>
+  <h1 id="titulo">CONTEÚDO</h1>
+  <p id="subtitulo">CONTEÚDO</p>
 </header>
 
 <section>
-  <h2>CONTEÚDO</h2>
-  <p>CONTEÚDO</p>
+  <h2>Quem Somos</h2>
+  <p id="apresentacao">CONTEÚDO</p>
 </section>
 
 <section>
-  <h2>Planos, Viagens e Produtos</h2>
-  <div id="listaProdutos" class="grid"></div>
+  <h2>Serviços & Produtos</h2>
+  <div class="produtos" id="produtos"></div>
 </section>
 
-<section id="login" class="hidden">
-  <h2>Login Administrativo</h2>
-  <input id="email" placeholder="Email">
-  <input id="senha" type="password" placeholder="Senha">
-  <button class="btn" onclick="login()">Entrar</button>
-</section>
+<footer>
+  <p id="rodape">CONTEÚDO</p>
+</footer>
 
-<section id="admin" class="hidden">
-  <h2>Painel Administrativo</h2>
-  <input id="titulo" placeholder="Título">
-  <textarea id="descricao" placeholder="Descrição"></textarea>
-  <input id="preco" placeholder="Preço">
-  <input id="link" placeholder="Link (WhatsApp, site, etc)">
-  <button class="btn" onclick="adicionarProduto()">Adicionar Produto</button>
-</section>
-
-<!-- FIREBASE -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-  import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getFirestore, doc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBt2_hFx7ppxdqchzOhmMWXFrsKXsORy5U",
     authDomain: "mamae-6ced3.firebaseapp.com",
     projectId: "mamae-6ced3",
-    storageBucket: "mamae-6ced3.appspot.com",
+    storageBucket: "mamae-6ced3.firebasestorage.app",
     messagingSenderId: "783662269266",
-    appId: "1:783662269266:web:bd7dd7e5f31c13801ff08b"
+    appId: "1:783662269266:web:bd7dd7e5f31c13801ff08b",
+    measurementId: "G-QMPJJ45C50"
   };
 
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
   const db = getFirestore(app);
 
-  window.abrirLogin = () => {
-    document.getElementById("login").classList.remove("hidden");
-  };
+  // Conteúdo do site
+  onSnapshot(doc(db, "site", "conteudo"), snap => {
+    if (snap.exists()) {
+      const d = snap.data();
+      titulo.innerText = d.titulo;
+      subtitulo.innerText = d.subtitulo;
+      apresentacao.innerText = d.apresentacao;
+      rodape.innerText = d.rodape;
+    }
+  });
 
-  window.login = () => {
-    signInWithEmailAndPassword(auth, email.value, senha.value)
-      .then(() => {
-        document.getElementById("login").classList.add("hidden");
-        document.getElementById("admin").classList.remove("hidden");
-      })
-      .catch(e => alert("Erro no login"));
-  };
-
-  window.adicionarProduto = async () => {
-    await addDoc(collection(db, "produtos"), {
-      titulo: titulo.value,
-      descricao: descricao.value,
-      preco: preco.value,
-      link: link.value
-    });
-
-    titulo.value = "";
-    descricao.value = "";
-    preco.value = "";
-    link.value = "";
-  };
-
-  onSnapshot(collection(db, "produtos"), snapshot => {
-    listaProdutos.innerHTML = "";
-    snapshot.forEach(doc => {
+  // Produtos
+  onSnapshot(collection(db, "produtos"), snap => {
+    produtos.innerHTML = "";
+    snap.forEach(doc => {
       const p = doc.data();
-      listaProdutos.innerHTML += `
-        <div class="card">
-          <h3>${p.titulo}</h3>
-          <p>${p.descricao}</p>
-          <strong>${p.preco}</strong><br>
-          <a href="${p.link}" target="_blank">Contato</a>
+      produtos.innerHTML += `
+        <div class="produto">
+          <img src="${p.imagem}">
+          <div class="info">
+            <h3>${p.nome}</h3>
+            <p>${p.descricao}</p>
+            <strong>${p.preco}</strong>
+          </div>
         </div>
       `;
     });
