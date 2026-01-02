@@ -1,99 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Agência de Viagens & Planos de Saúde</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f4f8;
-      color: #333;
-    }
-
-    header {
-      background: linear-gradient(120deg, #0066ff, #00c2ff);
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      font-size: 28px;
-    }
-
-    .produtos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .produto {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
-
-    .produto img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .produto .info {
-      padding: 15px;
-    }
-
-    footer {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 25px;
-      margin-top: 40px;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <h1 id="titulo">CONTEÚDO</h1>
-  <p id="subtitulo">CONTEÚDO</p>
-</header>
-
-<section>
-  <h2>Quem Somos</h2>
-  <p id="apresentacao">CONTEÚDO</p>
-</section>
-
-<section>
-  <h2>Serviços & Produtos</h2>
-  <div class="produtos" id="produtos"></div>
-</section>
-
-<footer>
-  <p id="rodape">CONTEÚDO</p>
-</footer>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agência da Mamãe</title>
+<link rel="stylesheet" href="style.css">
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getFirestore, doc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+  import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBt2_hFx7ppxdqchzOhmMWXFrsKXsORy5U",
     authDomain: "mamae-6ced3.firebaseapp.com",
     projectId: "mamae-6ced3",
-    storageBucket: "mamae-6ced3.firebasestorage.app",
+    storageBucket: "mamae-6ced3.appspot.com",
     messagingSenderId: "783662269266",
     appId: "1:783662269266:web:bd7dd7e5f31c13801ff08b",
     measurementId: "G-QMPJJ45C50"
@@ -101,36 +22,78 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const storage = getStorage(app);
 
-  // Conteúdo do site
-  onSnapshot(doc(db, "site", "conteudo"), snap => {
-    if (snap.exists()) {
-      const d = snap.data();
-      titulo.innerText = d.titulo;
-      subtitulo.innerText = d.subtitulo;
-      apresentacao.innerText = d.apresentacao;
-      rodape.innerText = d.rodape;
+  // Função para carregar o conteúdo principal do site
+  async function carregarSite() {
+    const siteDoc = doc(db, "site", "conteudo");
+    const siteSnap = await getDoc(siteDoc);
+    if(siteSnap.exists()) {
+      document.getElementById("banner-texto").innerText = siteSnap.data().banner || "Banner";
+      document.getElementById("apresentacao-texto").innerText = siteSnap.data().apresentacao || "Apresentação";
+      document.getElementById("rodape-texto").innerText = siteSnap.data().rodape || "Rodapé";
+      // Se tiver link de banner
+      if(siteSnap.data().bannerImagem){
+        const url = await getDownloadURL(ref(storage, siteSnap.data().bannerImagem));
+        document.getElementById("banner-img").src = url;
+      }
     }
-  });
+    carregarProdutos();
+  }
 
-  // Produtos
-  onSnapshot(collection(db, "produtos"), snap => {
-    produtos.innerHTML = "";
-    snap.forEach(doc => {
-      const p = doc.data();
-      produtos.innerHTML += `
-        <div class="produto">
-          <img src="${p.imagem}">
-          <div class="info">
-            <h3>${p.nome}</h3>
-            <p>${p.descricao}</p>
-            <strong>${p.preco}</strong>
-          </div>
+  // Função para carregar produtos
+  async function carregarProdutos() {
+    const produtosCol = collection(db, "produtos");
+    const produtosSnap = await getDocs(produtosCol);
+    const produtosDiv = document.getElementById("produtos-lista");
+    produtosDiv.innerHTML = "";
+    produtosSnap.forEach(async (docSnap) => {
+      let produto = docSnap.data();
+      let imgUrl = "";
+      if(produto.imagem){
+        imgUrl = await getDownloadURL(ref(storage, produto.imagem));
+      }
+      produtosDiv.innerHTML += `
+        <div class="produto-card">
+          <img src="${imgUrl}" alt="${produto.nome}">
+          <h3>${produto.nome}</h3>
+          <p>${produto.descricao}</p>
+          <p><strong>R$ ${produto.preco}</strong></p>
         </div>
       `;
     });
-  });
-</script>
+  }
 
+  window.onload = carregarSite;
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body{font-family:sans-serif;margin:0;padding:0;background:#f8f9fa;color:#333;}
+header{background:#007bff;color:white;padding:2rem;text-align:center;}
+#banner-img{width:100%;max-height:400px;object-fit:cover;margin-bottom:1rem;}
+#produtos-lista{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;padding:2rem;}
+.produto-card{background:white;padding:1rem;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);text-align:center;}
+footer{background:#222;color:white;padding:1rem;text-align:center;margin-top:2rem;}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="banner-texto">Banner</h1>
+  <img id="banner-img" src="" alt="Banner">
+</header>
+
+<section id="apresentacao">
+  <h2>Apresentação</h2>
+  <p id="apresentacao-texto">Apresentação</p>
+</section>
+
+<section id="produtos">
+  <h2>Produtos / Serviços</h2>
+  <div id="produtos-lista"></div>
+</section>
+
+<footer>
+  <p id="rodape-texto">Rodapé</p>
+</footer>
 </body>
 </html>
