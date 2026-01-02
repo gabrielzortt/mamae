@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Painel Administrativo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+  padding: 20px;
+}
+
+.box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+input, textarea, button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  background: #0066ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box" id="loginBox">
+  <h2>Login Administrativo</h2>
+  <input id="email" placeholder="Email">
+  <input id="senha" type="password" placeholder="Senha">
+  <button onclick="login()">Entrar</button>
+</div>
+
+<div id="painel" style="display:none">
+
+<div class="box">
+  <h2>Conteúdo do Site</h2>
+  <input id="titulo" placeholder="Título">
+  <input id="subtitulo" placeholder="Subtítulo">
+  <textarea id="apresentacao" placeholder="Apresentação"></textarea>
+  <input id="rodape" placeholder="Rodapé">
+  <button onclick="salvarConteudo()">Salvar</button>
+</div>
+
+<div class="box">
+  <h2>Novo Produto</h2>
+  <input id="nome" placeholder="Nome">
+  <input id="preco" placeholder="Preço">
+  <input id="imagem" placeholder="Link da imagem">
+  <textarea id="descricao" placeholder="Descrição"></textarea>
+  <button onclick="salvarProduto()">Adicionar Produto</button>
+</div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBt2_hFx7ppxdqchzOhmMWXFrsKXsORy5U",
+  authDomain: "mamae-6ced3.firebaseapp.com",
+  projectId: "mamae-6ced3",
+  storageBucket: "mamae-6ced3.firebasestorage.app",
+  messagingSenderId: "783662269266",
+  appId: "1:783662269266:web:bd7dd7e5f31c13801ff08b",
+  measurementId: "G-QMPJJ45C50"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.login = () => {
+  signInWithEmailAndPassword(auth, email.value, senha.value)
+    .then(() => {
+      loginBox.style.display = "none";
+      painel.style.display = "block";
+    })
+    .catch(() => alert("Erro no login"));
+};
+
+window.salvarConteudo = async () => {
+  await setDoc(doc(db, "site", "conteudo"), {
+    titulo: titulo.value,
+    subtitulo: subtitulo.value,
+    apresentacao: apresentacao.value,
+    rodape: rodape.value
+  });
+  alert("Conteúdo salvo");
+};
+
+window.salvarProduto = async () => {
+  await addDoc(collection(db, "produtos"), {
+    nome: nome.value,
+    preco: preco.value,
+    imagem: imagem.value,
+    descricao: descricao.value
+  });
+  alert("Produto adicionado");
+};
+</script>
+
+</body>
+</html>
