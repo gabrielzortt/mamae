@@ -1,107 +1,195 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agência Profissional</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--p:#0d6efd;--s:#00b4d8;--d:#0f172a;--g:#64748b;--bg:#eef2f7}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-body{background:var(--bg);color:var(--d)}
-header{background:#fff;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 10px 30px rgba(0,0,0,.08)}
-.nav{max-width:1200px;margin:auto;padding:18px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:700;font-size:1.4rem;color:var(--p)}
-.menu a{text-decoration:none;margin-left:20px;color:var(--d);font-weight:500}
-.menu a:hover{color:var(--p)}
-.hero{margin-top:90px;min-height:90vh;background:linear-gradient(135deg,var(--p),var(--s));display:flex;align-items:center;color:#fff}
-.hero-box{max-width:1200px;margin:auto;padding:40px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px}
-.hero h1{font-size:3rem}
-.hero p{margin:20px 0;opacity:.95}
-.btn{display:inline-block;background:#fff;color:var(--p);padding:14px 32px;border-radius:50px;text-decoration:none;font-weight:600}
-.hero-img{background:rgba(255,255,255,.3);border:2px dashed #fff;display:flex;align-items:center;justify-content:center;height:380px}
-section{padding:100px 20px}
-.container{max-width:1200px;margin:auto}
-.title{text-align:center;margin-bottom:60px}
-.title h2{font-size:2.4rem}
-.title p{color:var(--g)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
-.card{background:#fff;border-radius:22px;box-shadow:0 12px 40px rgba(0,0,0,.08);overflow:hidden}
-.card-body{padding:22px}
-.price{color:var(--p);font-weight:700;margin-top:10px}
-footer{background:var(--d);color:#fff;padding:70px 20px}
-/* ADMIN */
-#admin,#painel{display:none}
-.admin{background:#fff;padding:35px;border-radius:25px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
-input,textarea,select,button{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #cbd5e1}
-button{background:var(--p);color:#fff;border:none;font-weight:600;cursor:pointer}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-.field-row{display:flex;gap:10px}
-.field-row input{flex:1}
-.list div{background:#f1f5f9;padding:10px;border-radius:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-@media(max-width:900px){.hero-box,.grid{grid-template-columns:1fr;text-align:center}}
-</style>
+  <meta charset="UTF-8">
+  <title>Agência de Viagens & Planos de Saúde</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f4f8;
+    }
+
+    header {
+      background: #004aad;
+      color: white;
+      padding: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav button {
+      background: white;
+      color: #004aad;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 40px 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      color: white;
+      background: #004aad;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      background: #004aad;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
+
 <header>
-<div class="nav">
-<div class="logo" id="cfgLogo">CONTEÚDO</div>
-<nav class="menu">
-<a href="#saude">Saúde</a>
-<a href="#viagens">Viagens</a>
-<a href="#contato">Contato</a>
-<a href="#admin">Admin</a>
-</nav>
-</div>
+  <nav>
+    <h1>LOGO</h1>
+    <button onclick="abrirLogin()">Admin</button>
+  </nav>
 </header>
-<section class="hero">
-<div class="hero-box">
-<div>
-<h1 id="cfgTitulo">CONTEÚDO</h1>
-<p id="cfgSub">CONTEÚDO</p>
-<a id="cfgBtn" class="btn" href="#">CONTEÚDO</a>
-</div>
-<div class="hero-img">IMAGEM – CONTEÚDO</div>
-</div>
+
+<section>
+  <h2>CONTEÚDO</h2>
+  <p>CONTEÚDO</p>
 </section>
-<section id="saude"><div class="container"><div class="title"><h2>Planos de Saúde</h2></div><div class="cards" id="listaSaude"></div></div></section>
-<section id="viagens"><div class="container"><div class="title"><h2>Viagens</h2></div><div class="cards" id="listaViagens"></div></div></section>
-<section id="admin"><div class="container"><div id="login" class="admin"><h2>Login Admin</h2><input type="password" id="senha"><button onclick="login()">Entrar</button></div>
-<div id="painel" class="admin"><h2>Painel Administrativo</h2>
-<h3>Configurações do Site</h3>
-<input id="logoTxt" placeholder="Nome do site">
-<input id="tituloTxt" placeholder="Título principal">
-<input id="subTxt" placeholder="Subtítulo">
-<input id="btnTxt" placeholder="Texto do botão">
-<input id="btnLink" placeholder="Link do botão">
-<input id="contatoTxt" placeholder="Contato do rodapé">
-<button onclick="salvarConfig()">Salvar Configurações</button>
-<hr style="margin:20px 0">
-<div class="grid">
-<div>
-<h3>Novo Produto (campos livres)</h3>
-<select id="tipo"><option value="saude">Saúde</option><option value="viagens">Viagens</option></select>
-<input id="titulo" placeholder="Título principal do produto">
-<input id="preco" placeholder="Preço (opcional)">
-<input id="link" placeholder="Link do produto / WhatsApp / qualquer link">
-<div id="camposExtras"></div>
-<button onclick="addCampo()">➕ Adicionar novo campo</button>
-<button onclick="addItem()">Salvar Produto</button>
-</div>
-<div class="list"><h3>Produtos cadastrados</h3><div id="adminList"></div></div>
-</div></div></div></section>
-<footer id="contato"><div class="container"><p id="cfgContato">CONTEÚDO</p></div></footer>
-<script>
-const senhaCorreta='1234';
-function login(){if(senha.value===senhaCorreta){login.style.display='none';painel.style.display='block';render();loadCfg()}else alert('Senha incorreta')}
-function salvarConfig(){localStorage.setItem('cfg',JSON.stringify({logo:logoTxt.value,titulo:tituloTxt.value,sub:subTxt.value,btn:btnTxt.value,btnLink:btnLink.value,contato:contatoTxt.value}));loadCfg()}
-function loadCfg(){const c=JSON.parse(localStorage.getItem('cfg')||'{}');cfgLogo.innerText=c.logo||'CONTEÚDO';cfgTitulo.innerText=c.titulo||'CONTEÚDO';cfgSub.innerText=c.sub||'CONTEÚDO';cfgBtn.innerText=c.btn||'CONTEÚDO';cfgBtn.href=c.btnLink||'#';cfgContato.innerText=c.contato||'CONTEÚDO'}
-function getData(t){return JSON.parse(localStorage.getItem(t)||'[]')}
-function saveData(t,d){localStorage.setItem(t,JSON.stringify(d))}
-function addCampo(){const div=document.createElement('div');div.className='field-row';div.innerHTML='<input placeholder="Nome do campo"><input placeholder="Valor">';camposExtras.appendChild(div)}
-function addItem(){const extras=[];document.querySelectorAll('#camposExtras .field-row').forEach(r=>{const k=r.children[0].value;const v=r.children[1].value;if(k&&v)extras.push({k,v})});const item={titulo:titulo.value,preco:preco.value,link:link.value,extras};const d=getData(tipo.value);d.push(item);saveData(tipo.value,d);camposExtras.innerHTML='';render()}
-function removeItem(t,i){const d=getData(t);d.splice(i,1);saveData(t,d);render()}
-function render(){['saude','viagens'].forEach(t=>{const list=document.getElementById(t==='saude'?'listaSaude':'listaViagens');const admin=adminList;list.innerHTML='';admin.innerHTML='';getData(t).forEach((i,idx)=>{let extraHtml='';i.extras.forEach(e=>extraHtml+=`<p><strong>${e.k}:</strong> ${e.v}</p>`);list.innerHTML+=`<div class='card'><div class='card-body'><h3>${i.titulo}</h3>${extraHtml}${i.preco?`<div class='price'>${i.preco}</div>`:''}<a class='btn' href='${i.link}' target='_blank'>Contato</a></div></div>`;admin.innerHTML+=`<div><span>${i.titulo}</span><button onclick="removeItem('${t}',${idx})">X</button></div>`})})}
-loadCfg();render();
+
+<section>
+  <h2>Planos, Viagens e Produtos</h2>
+  <div id="listaProdutos" class="grid"></div>
+</section>
+
+<section id="login" class="hidden">
+  <h2>Login Administrativo</h2>
+  <input id="email" placeholder="Email">
+  <input id="senha" type="password" placeholder="Senha">
+  <button class="btn" onclick="login()">Entrar</button>
+</section>
+
+<section id="admin" class="hidden">
+  <h2>Painel Administrativo</h2>
+  <input id="titulo" placeholder="Título">
+  <textarea id="descricao" placeholder="Descrição"></textarea>
+  <input id="preco" placeholder="Preço">
+  <input id="link" placeholder="Link (WhatsApp, site, etc)">
+  <button class="btn" onclick="adicionarProduto()">Adicionar Produto</button>
+</section>
+
+<!-- FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt2_hFx7ppxdqchzOhmMWXFrsKXsORy5U",
+    authDomain: "mamae-6ced3.firebaseapp.com",
+    projectId: "mamae-6ced3",
+    storageBucket: "mamae-6ced3.appspot.com",
+    messagingSenderId: "783662269266",
+    appId: "1:783662269266:web:bd7dd7e5f31c13801ff08b"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window.abrirLogin = () => {
+    document.getElementById("login").classList.remove("hidden");
+  };
+
+  window.login = () => {
+    signInWithEmailAndPassword(auth, email.value, senha.value)
+      .then(() => {
+        document.getElementById("login").classList.add("hidden");
+        document.getElementById("admin").classList.remove("hidden");
+      })
+      .catch(e => alert("Erro no login"));
+  };
+
+  window.adicionarProduto = async () => {
+    await addDoc(collection(db, "produtos"), {
+      titulo: titulo.value,
+      descricao: descricao.value,
+      preco: preco.value,
+      link: link.value
+    });
+
+    titulo.value = "";
+    descricao.value = "";
+    preco.value = "";
+    link.value = "";
+  };
+
+  onSnapshot(collection(db, "produtos"), snapshot => {
+    listaProdutos.innerHTML = "";
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      listaProdutos.innerHTML += `
+        <div class="card">
+          <h3>${p.titulo}</h3>
+          <p>${p.descricao}</p>
+          <strong>${p.preco}</strong><br>
+          <a href="${p.link}" target="_blank">Contato</a>
+        </div>
+      `;
+    });
+  });
 </script>
+
 </body>
 </html>
