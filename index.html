@@ -1,120 +1,248 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agência da Mamãe</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-body{margin:0;font-family:sans-serif;background:#f8f9fa;color:#333;}
-header{background:#007bff;color:white;padding:2rem;text-align:center;position:relative;}
-#banner-img{width:100%;height:400px;object-fit:cover;border-radius:10px;margin-bottom:1rem;}
-section{max-width:1200px;margin:auto;padding:2rem;}
-h2{margin-bottom:20px;font-size:28px;}
-#produtos-lista{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;}
-.produto-card{background:white;padding:1rem;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);text-align:center;}
-.produto-card img{width:100%;height:200px;object-fit:cover;border-radius:10px;}
-footer{background:#222;color:white;padding:1rem;text-align:center;margin-top:2rem;}
-.video-card{position:relative;padding-top:56.25%;margin-bottom:1rem;}
-.video-card iframe{position:absolute;top:0;left:0;width:100%;height:100%;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriel Zorzetti | Web Design de Alta Performance</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <style>
+        :root {
+            --bg: #05070a;
+            --surface: #0f1218;
+            --primary: #00d2ff;
+            --secondary: #25d366;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Estilo Glassmorphism */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+
+        /* Hero Section */
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at top right, rgba(0, 210, 255, 0.1), transparent),
+                        radial-gradient(circle at bottom left, rgba(37, 211, 102, 0.05), transparent);
+        }
+
+        .hero-badge {
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: inline-block;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; margin-bottom: 24px; font-weight: 800; letter-spacing: -2px; }
+        h1 span { background: linear-gradient(90deg, var(--primary), #a29bfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .hero-p { font-size: 1.25rem; color: var(--text-dim); max-width: 600px; margin: 0 auto 40px; }
+
+        /* Botões */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 36px;
+            border-radius: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .btn-primary { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); }
+        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(0, 210, 255, 0.6); }
+
+        /* Seção Serviços */
+        section { padding: 100px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 16px; }
+        .section-title p { color: var(--text-dim); }
+
+        .grid-services { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .service-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+
+        /* Pricing Premium */
+        .pricing-box {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+        .popular-tag {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #000;
+            padding: 4px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .price { font-size: 4rem; font-weight: 800; margin: 20px 0; }
+        .price span { font-size: 1.2rem; color: var(--text-dim); font-weight: 400; }
+
+        /* FAQ */
+        .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px; }
+        @media (max-width: 600px) { .faq-grid { grid-template-columns: 1fr; } }
+
+        /* Floating WhatsApp */
+        .wpp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--secondary);
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .wpp-float:hover { transform: scale(1.1) rotate(10deg); }
+
+        footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--border); color: var(--text-dim); }
+    </style>
 </head>
 <body>
 
-<header>
-  <h1 id="banner-texto">Banner</h1>
-  <img id="banner-img" src="" alt="Banner">
-</header>
+    <a href="https://wa.me/5592994274276?text=Olá%20Gabriel!%20Vi%20seu%20portfolio%20e%20quero%20um%20site." class="wpp-float" target="_blank">
+        <i class="ph-fill ph-whatsapp-logo"></i>
+    </a>
 
-<section id="apresentacao">
-  <h2>Apresentação</h2>
-  <p id="apresentacao-texto">Apresentação</p>
-</section>
+    <header>
+        <div class="container">
+            <span class="hero-badge">DISPONÍVEL EM MANAUS</span>
+            <h1>Crio sites que <span>vendem por você.</span></h1>
+            <p class="hero-p">Transforme seu comércio ou escritório em uma autoridade digital com Landing Pages de alto padrão.</p>
+            <a href="#precos" class="btn btn-primary">
+                SOLICITAR ORÇAMENTO <i class="ph ph-arrow-right"></i>
+            </a>
+        </div>
+    </header>
 
-<section id="produtos">
-  <h2>Produtos / Serviços</h2>
-  <div id="produtos-lista"></div>
-</section>
+    <div class="container">
+        <section id="servicos">
+            <div class="section-title">
+                <h2>Experiência Comprovada</h2>
+                <p>Soluções sob medida para nichos específicos</p>
+            </div>
+            <div class="grid-services">
+                <div class="glass-card">
+                    <i class="ph ph-scissors service-icon"></i>
+                    <h3>Barbearias & Estética</h3>
+                    <p>Design moderno para atrair o público que valoriza o visual do seu espaço.</p>
+                </div>
+                <div class="glass-card">
+                    <i class="ph ph-briefcase service-icon"></i>
+                    <h3>Escritórios & Profissionais</h3>
+                    <p>Landing pages que transmitem a seriedade e confiança que seu serviço exige.</p>
+                </div>
+                <div class="glass-card">
+                    <i class="ph ph-house-line service-icon"></i>
+                    <h3>Corretoras & Imobiliárias</h3>
+                    <p>Vitrine focada em conversão para transformar visitas em propostas reais.</p>
+                </div>
+            </div>
+        </section>
 
-<section id="videos">
-  <h2>Vídeos / Anúncios</h2>
-  <div id="videos-lista"></div>
-</section>
+        <section id="precos">
+            <div class="section-title">
+                <h2>Investimento Inteligente</h2>
+                <p>O melhor custo-benefício de Manaus</p>
+            </div>
+            <div class="glass-card pricing-box">
+                <span class="popular-tag">O MAIS PEDIDO</span>
+                <h3>Site Profissional Completo</h3>
+                <div class="price">R$ 400<span>/único</span></div>
+                <p style="margin-bottom: 24px;">+ Manutenção Mensal de R$ 130</p>
+                <ul style="list-style: none; text-align: left; margin-bottom: 30px; color: var(--text-dim);">
+                    <li><i class="ph ph-check-circle" style="color: var(--secondary);"></i> Hospedagem Premium Inclusa</li>
+                    <li><i class="ph ph-check-circle" style="color: var(--secondary);"></i> Design 100% Responsivo</li>
+                    <li><i class="ph ph-check-circle" style="color: var(--secondary);"></i> Botão de WhatsApp Estratégico</li>
+                    <li><i class="ph ph-check-circle" style="color: var(--secondary);"></i> Suporte Técnico via WhatsApp</li>
+                </ul>
+                <a href="https://wa.me/5592994274276?text=Gabriel,%20quero%20fechar%20o%20site%20de%20400%20reais." class="btn btn-primary" style="width: 100%; justify-content: center;">
+                    GARANTIR MINHA VAGA
+                </a>
+            </div>
+        </section>
 
-<footer>
-  <p id="rodape-texto">Rodapé</p>
-</footer>
+        <section>
+            <div class="section-title">
+                <h2>Dúvidas Frequentes</h2>
+            </div>
+            <div class="faq-grid">
+                <div class="glass-card">
+                    <h4>Em quanto tempo fica pronto?</h4>
+                    <p style="color: var(--text-dim); margin-top: 10px;">Entrego sua landing page estruturada em até 7 dias úteis após o envio das informações.</p>
+                </div>
+                <div class="glass-card">
+                    <h4>O que é a manutenção mensal?</h4>
+                    <p style="color: var(--text-dim); margin-top: 10px;">Garante que seu site nunca saia do ar, fique sempre rápido e seguro, além de pequenas alterações mensais gratuitas.</p>
+                </div>
+            </div>
+        </section>
+    </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
+    <footer>
+        <div class="container">
+            <p><strong>Gabriel Santos Zorzetti</strong></p>
+            <p>Manaus - AM | 2026</p>
+        </div>
+    </footer>
 
-const firebaseConfig = {
-apiKey: "AIzaSyBt2_hFx7ppxdqchzOhmMWXFrsKXsORy5U",
-authDomain: "mamae-6ced3.firebaseapp.com",
-projectId: "mamae-6ced3",
-storageBucket: "mamae-6ced3.appspot.com",
-messagingSenderId: "783662269266",
-appId: "1:783662269266:web:bd7dd7e5f31c13801ff08b",
-measurementId: "G-QMPJJ45C50"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
-async function carregarSite(){
-  const siteSnap = await getDoc(doc(db,"site","conteudo"));
-  if(siteSnap.exists()){
-    const d = siteSnap.data();
-    document.getElementById("banner-texto").innerText=d.banner||"Banner";
-    document.getElementById("apresentacao-texto").innerText=d.apresentacao||"Apresentação";
-    document.getElementById("rodape-texto").innerText=d.rodape||"Rodapé";
-    if(d.bannerImagem){
-      const url = await getDownloadURL(ref(storage,d.bannerImagem));
-      document.getElementById("banner-img").src=url;
-    }
-  }
-  carregarProdutos();
-  carregarVideos();
-}
-
-async function carregarProdutos(){
-  const produtosSnap = await getDocs(collection(db,"produtos"));
-  const produtosDiv = document.getElementById("produtos-lista");
-  produtosDiv.innerHTML="";
-  produtosSnap.forEach(async(docSnap)=>{
-    const p = docSnap.data();
-    let imgUrl="";
-    if(p.imagem){ imgUrl = await getDownloadURL(ref(storage,p.imagem)); }
-    produtosDiv.innerHTML+=`
-    <div class="produto-card">
-      <img src="${imgUrl}" alt="${p.nome}">
-      <h3>${p.nome}</h3>
-      <p>${p.descricao}</p>
-      <p><strong>R$ ${p.preco}</strong></p>
-    </div>`;
-  });
-}
-
-async function carregarVideos(){
-  const videosSnap = await getDocs(collection(db,"videos"));
-  const videosDiv = document.getElementById("videos-lista");
-  videosDiv.innerHTML="";
-  videosSnap.forEach(docSnap=>{
-    const v = docSnap.data();
-    if(v.link){
-      videosDiv.innerHTML+=`
-      <div class="video-card">
-        <iframe src="${v.link}" frameborder="0" allowfullscreen></iframe>
-      </div>`;
-    }
-  });
-}
-
-window.onload = carregarSite;
-</script>
-
+    <script>
+        // Animação de entrada
+        ScrollReveal().reveal('.glass-card', { 
+            delay: 200, 
+            distance: '50px', 
+            origin: 'bottom', 
+            interval: 100 
+        });
+        ScrollReveal().reveal('h1', { delay: 100, origin: 'top', distance: '30px' });
+    </script>
 </body>
 </html>
